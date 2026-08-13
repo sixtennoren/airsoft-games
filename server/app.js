@@ -1,10 +1,15 @@
 import path from 'path';
+import fs from "fs";
 import { WebSocketServer } from 'ws';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
-process.loadEnvFile(path.join(import.meta.dirname, '.env'));
+const envPath = path.join(import.meta.dirname, ".env");
+
+if (fs.existsSync(envPath)) {
+    process.loadEnvFile(envPath);
+}
 
 const wss = new WebSocketServer({ port: process.env.WS_PORT ?? 443 });
 const clients = [];
