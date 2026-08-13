@@ -91,7 +91,7 @@ export default function Player() {
       }, 1750);
     };
 
-    const socket = new WebSocket("ws://81.226.145.174:8080");
+    const socket = new WebSocket("ws://localhost:8080");
     const ping = () => {
       pingTimestamp = performance.now();
       socket.send(

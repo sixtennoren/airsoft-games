@@ -4,7 +4,7 @@ export default function Bomb() {
   const delayId = useId();
   const [delay, setDelay] = useState(0);
   const plantBomb = async () => {
-    const res = await fetch("http://localhost:3000/bomb/plant", {
+    const res = await fetch("http://localhost:3000/api/bomb/plant", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -20,7 +20,7 @@ export default function Bomb() {
   };
 
   const defuseBomb = async () => {
-    const res = await fetch("http://localhost:3000/bomb/defuse", {
+    const res = await fetch("http://localhost:3000/api/bomb/defuse", {
       method: "POST",
     });
     console.log(res.status);

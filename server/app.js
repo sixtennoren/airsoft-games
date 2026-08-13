@@ -11,8 +11,10 @@ const clients = [];
 
 const app = express();
 const port = process.env.HTTP_PORT ?? 443
+const frontendDist = path.join(import.meta.dirname, '..', 'frontend', 'dist');
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.static(frontendDist));
 
 wss.on('connection', (ws) => {
     clients.push(ws);
@@ -34,13 +36,13 @@ wss.on('connection', (ws) => {
     })
 });
 
-app.get('/bomb/time', (req, res) => {
+app.get('/api/bomb/time', (req, res) => {
     const timestamp = String(Date.now())
     console.log(`Sync: ${timestamp}`);
     res.type('text/plain').send(timestamp);
 });
 
-app.post('/bomb/plant', (req, res) => {
+app.post('/api/bomb/plant', (req, res) => {
     console.log(`Bomb planted for ${clients.length} players.`)
     console.log(`Timestamp: ${req.body.plantedAt}`);
     const timerLength = req.body.timerLength;
@@ -60,7 +62,7 @@ app.post('/bomb/plant', (req, res) => {
     });
 })
 
-app.post('/bomb/defuse', (req, res) => {
+app.post('/api/bomb/defuse', (req, res) => {
     console.log(`Bomb defused for ${clients.length} players.`)
     clients.forEach(client => {
         client.send(JSON.stringify({
@@ -72,6 +74,11 @@ app.post('/bomb/defuse', (req, res) => {
         players: clients.length
     });
 })
+
+// SPA fallback so client-side routes (react-router-dom) resolve on refresh/deep link.
+app.get(/.*/, (req, res) => {
+    res.sendFile(path.join(frontendDist, 'index.html'));
+});
 
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`)
