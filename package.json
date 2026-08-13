@@ -12,9 +12,15 @@
   },
   "license": "ISC",
   "author": "Sixten Norén",
-  "type": "commonjs",
+  "type": "module",
+  "main": "app.js",
   "scripts": {
-    "build": "cd frontend && npm install && npm run build && cd ../server && npm install",
-    "app": "node server/app"
+    "build": "npm install && cd frontend && npm install && npm run build",
+    "app": "node app"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "ws": "^8.21.1"
   }
 }

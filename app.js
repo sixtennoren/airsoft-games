@@ -15,7 +15,7 @@ const app = express();
 const port = process.env.PORT ?? 443
 app.use(cors());
 app.use(bodyParser.json());
-const frontendDist = path.join(import.meta.dirname, '..', 'frontend', 'dist');
+const frontendDist = path.join(import.meta.dirname, 'frontend', 'dist');
 app.use(express.static(frontendDist));
 
 const server = http.createServer(app);
