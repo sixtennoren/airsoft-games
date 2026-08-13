@@ -1,5 +1,8 @@
+const path = require('path');
+process.loadEnvFile(path.join(__dirname, '.env'));
+
 const WebSocket = require('ws');
-const wss = new WebSocket.Server({ port: 8080 });
+const wss = new WebSocket.Server({ port: process.env.WS_PORT ?? 443 });
 
 const clients = [];
 
@@ -7,7 +10,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
-const port = 3000
+const port = process.env.HTTP_PORT ?? 443
 app.use(cors());
 app.use(bodyParser.json());
 
