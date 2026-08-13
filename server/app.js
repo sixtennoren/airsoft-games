@@ -1,14 +1,14 @@
-const path = require('path');
-process.loadEnvFile(path.join(__dirname, '.env'));
+import path from 'path';
+import { WebSocketServer } from 'ws';
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
 
-const WebSocket = require('ws');
-const wss = new WebSocket.Server({ port: process.env.WS_PORT ?? 443 });
+process.loadEnvFile(path.join(import.meta.dirname, '.env'));
 
+const wss = new WebSocketServer({ port: process.env.WS_PORT ?? 443 });
 const clients = [];
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
 const app = express();
 const port = process.env.HTTP_PORT ?? 443
 app.use(cors());
