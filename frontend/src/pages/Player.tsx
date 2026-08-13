@@ -91,7 +91,8 @@ export default function Player() {
       }, 1750);
     };
 
-    const socket = new WebSocket("ws://localhost:8080");
+    const wsProtocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+    const socket = new WebSocket(`${wsProtocol}//${window.location.host}`);
     const ping = () => {
       pingTimestamp = performance.now();
       socket.send(

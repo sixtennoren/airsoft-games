@@ -1,25 +1,27 @@
 import path from 'path';
 import fs from "fs";
+import http from 'http';
 import { WebSocketServer } from 'ws';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
 const envPath = path.join(import.meta.dirname, ".env");
-
 if (fs.existsSync(envPath)) {
     process.loadEnvFile(envPath);
 }
 
-const wss = new WebSocketServer({ port: process.env.WS_PORT ?? 443 });
-const clients = [];
-
 const app = express();
-const port = process.env.HTTP_PORT ?? 443
-const frontendDist = path.join(import.meta.dirname, '..', 'frontend', 'dist');
+const port = process.env.PORT ?? 443
 app.use(cors());
 app.use(bodyParser.json());
+const frontendDist = path.join(import.meta.dirname, '..', 'frontend', 'dist');
 app.use(express.static(frontendDist));
+
+const server = http.createServer(app);
+const wss = new WebSocketServer({ server });
+
+const clients = [];
 
 wss.on('connection', (ws) => {
     clients.push(ws);
@@ -85,6 +87,6 @@ app.get(/.*/, (req, res) => {
     res.sendFile(path.join(frontendDist, 'index.html'));
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Server listening on port ${port}`)
 })
