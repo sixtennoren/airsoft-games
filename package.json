@@ -1,0 +1,20 @@
+{
+  "name": "airsoft-games",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/sixtennoren/airsoft-games#readme",
+  "bugs": {
+    "url": "https://github.com/sixtennoren/airsoft-games/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sixtennoren/airsoft-games.git"
+  },
+  "license": "ISC",
+  "author": "Sixten Norén",
+  "type": "commonjs",
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build && cd ../server && npm install",
+    "app": "node server/app"
+  }
+}
